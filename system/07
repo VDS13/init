@@ -1,0 +1,2 @@
+cat /var/ru/sshd.pid
+# sudo service ssh status | grep 'Main PID:' | awk '{print $3}'
