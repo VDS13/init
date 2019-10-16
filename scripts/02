@@ -1,12 +1,15 @@
-#!/bin/bash
+#!/bin/sh
 echo "Enter username:"
 read UN
-if [$(cat /etc/passwd | grep $UN) != "$NULL"]; then
-	if ["$(ps -aux | grep $UN | awk '{print $2}') != "$NULL"]; then
-		kill SIGKILL $(ps -aux | grep $UN | awk '{print $2}')
-		userdel -r $US
+if grep -q $UN /etc/passwd; then
+	if pgrep -u $UN; then
+		while ($(sudo kill $(pgrep -u $UN)))
+		do echo "Process killed"
+		done
+		sudo userdel $UN
+		echo "$UN deleted"
 	else
-		echo "User not active"
+		echo "User is not active"
 	fi
 else
 	echo "User does not exist"
